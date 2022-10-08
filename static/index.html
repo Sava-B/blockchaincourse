@@ -39,7 +39,7 @@
                         url:'/',
                         type:'post',
                         contentType:'application/json',
-                        data: JSON.stringify(('#form').serializeArray()),
+                        data: JSON.stringify($('#form').serializeArray()),
                         success: (response) =>{
                             console.log('successfully got response. idk wtf is going on');
                             console.log(response);

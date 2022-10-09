@@ -7,14 +7,17 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="col-lg-4">
-        <h1>You searched for : Stuff</h1>
-        <ul>
-            <li>dummy data</li>
-            <li>dummy data</li>
-            <li>dummy data</li>
-        </ul>
+    <div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">
+            <h1>You searched for : <%= data.userQuery %></h1>
+            <ul>
+                <% data.searchResults.forEach(result => { %>
+                   <li> <%= result %> <li>
+                <% }); %> 
+            </ul>
 
+        </div>
     </div>
     <script src="/app.js"></script>
 </body>

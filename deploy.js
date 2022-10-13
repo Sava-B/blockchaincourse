@@ -1,15 +1,12 @@
 const ethers = require("ethers");
 const fs = require("fs");
+require("dotenv").config();
 
 // http://127.0.0.1:7545
 async function main() {
-  const provider = new ethers.providers.JsonRpcProvider(
-    "http://127.0.0.1:7545"
-  );
-  const wallet = new ethers.Wallet(
-    "31e68ea5ea1efe756b6a79a503960c1b29d7dfa46ac073f42c77d5674ca5baed",
-    provider
-  );
+  const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);
+  console.log(process.env.PRIVATE_KEY);
+  const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
   const abi = fs.readFileSync("./SimpleStorage_sol_SimpleStorage.abi", "utf8");
   const binary = fs.readFileSync(
     "./SimpleStorage_sol_SimpleStorage.bin",
@@ -18,7 +15,16 @@ async function main() {
   const contractFactory = new ethers.ContractFactory(abi, binary, wallet);
   console.log("Deploying, please wait...");
   const contract = await contractFactory.deploy(); // Stop here! Wait for contract to deploy
-  console.log(contract);
+  await contract.deployTransaction.wait(1);
+  // Get number
+  const currentFavouriteNumber = await contract.retrieve();
+  console.log(
+    `Current Favourite Number : ${currentFavouriteNumber.toString()}`
+  );
+  const transactionResponse = await contract.store("7");
+  const transactionReceipt = await transactionResponse.wait(1);
+  const updatedFavouriteNumber = await contract.retrieve();
+  console.log(`Updated favourite number is: ${updatedFavouriteNumber}`);
 }
 
 main()

@@ -3,6 +3,7 @@
     "dotenv": "^16.0.3",
     "ethers": "^5.7.1",
     "fs": "^0.0.1-security",
+    "prettier-plugin-solidity": "^1.0.0-beta.24",
     "solc": "0.8.7-fixed",
     "yarn": "^1.22.19"
   },
